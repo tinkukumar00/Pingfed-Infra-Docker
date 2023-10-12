@@ -1,0 +1,51 @@
+version: "2.4"
+# This server profile used as basis for ping-devop docker-launch
+
+#-------------------------------------------------------------------------------------
+#- Ping Identity PingFederate getting started demo
+#-
+#-                +---------------+
+#-                | PingFederate  |
+#-                +---------------+
+#-
+#- To access PingFederate Console
+#- 
+#-    https://localhost:9999/pingfederate/app
+#-    
+#-    Username: administrator
+#-    Password: 2FederateM0re
+#-
+#- httpbin SP Test
+#-
+#-    https://localhost:9031/idp/startSSO.ping?PartnerSpId=httpbin
+#-
+#-    Username: pingchannel
+#-    Password: channelrocks!
+#-
+#- Salesforce SSO Test
+#-
+#-    https://pingchannel-dev-ed.my.salesforce.com/
+#-
+#-    Username: pingchannel@demo.com
+#-    Password: pingrocks2020
+#-------------------------------------------------------------------------------------
+
+services:
+  pingfederate:
+    image: pingidentity/pingfederate:edge
+    environment:
+      - SERVER_PROFILE_URL=https://github.com/jstinnett23/pingfederate-helloworld-channel
+      - SERVER_PROFILE_PATH=pingfederate
+    env_file:
+      - ~/.pingidentity/devops
+    ports:
+      - "9031:9031"
+      - "9999:9999"
+    networks:
+      - pingnet
+    # volumes:
+    # - ./pingfederate-in:/opt/in
+    # - ./pingfederate-out:/opt/out
+                    
+networks:
+    pingnet:
